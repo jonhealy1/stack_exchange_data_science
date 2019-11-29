@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    ports:
+    - "7474:7474"
+    - "7687:7687"
+    environment:
+    - NEO4J_dbms_memory_heap_max__size=4G
+    - NEO4JLABS_PLUGINS=["apoc", "graph-algorithms"]
+    - NEO4J_dbms_security_procedures_unrestricted=algo.*,apoc.*
+    volumes:
+    - ./neo4j/data:/data
+    - ./imports:/var/lib/neo4j/import
+
+  # load_data:
+  #   container_name: load_data
+  #   build: python/
+  #   command: python3 load_data_body.py
+  #   environment:
+  #     neo4j_url: neo4j:7687
+  #   depends_on:
+  #   - neo4j
